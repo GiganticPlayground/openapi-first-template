@@ -20,6 +20,22 @@ tags:
     description: Operations on users
 
 paths:
+  /health:
+    get:
+      summary: Health check endpoint
+      tags:
+        - System
+      operationId: getHealth
+      x-eov-operation-id: getHealth
+      x-eov-operation-handler: healthController
+      security: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthCheck'
   /users:
     get:
       tags:
@@ -400,6 +416,22 @@ components:
           description: Phone number of the user
           example: "+1 555 123 4567"
           pattern: '^\+?[1-9]\d{1,14}$'
+
+    HealthCheck:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Current health status of the service
+          example: "OK"
+        timestamp:
+          type: string
+          format: date-time
+          description: Timestamp when the health check was performed
+          example: "2025-01-15T10:30:00Z"
+      required:
+        - status
+        - timestamp
 
     Error:
       type: object

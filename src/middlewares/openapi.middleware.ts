@@ -1,9 +1,9 @@
 import * as OpenApiValidator from "express-openapi-validator";
 import { join } from "path";
 
-export const createOpenApiValidatorMiddleware = (apiSpecPath: string) =>
+export const createOpenApiValidatorMiddleware = (apiSpec: any) =>
   OpenApiValidator.middleware({
-    apiSpec: apiSpecPath,
+    apiSpec: apiSpec,
     validateApiSpec: true,
     validateRequests: true, // (default)
     validateResponses: true, // false by default

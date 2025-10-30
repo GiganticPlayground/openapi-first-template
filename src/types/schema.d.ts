@@ -4,6 +4,23 @@
  */
 
 export interface paths {
+    "/health": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Health check endpoint */
+        get: operations["getHealth"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/users": {
         parameters: {
             query?: never;
@@ -194,6 +211,19 @@ export interface components {
              */
             phone?: string;
         };
+        HealthCheck: {
+            /**
+             * @description Current health status of the service
+             * @example OK
+             */
+            status: string;
+            /**
+             * Format: date-time
+             * @description Timestamp when the health check was performed
+             * @example 2025-01-15T10:30:00Z
+             */
+            timestamp: string;
+        };
         Error: {
             /**
              * @description Error code
@@ -217,6 +247,26 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    getHealth: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HealthCheck"];
+                };
+            };
+        };
+    };
     getUsers: {
         parameters: {
             query?: {

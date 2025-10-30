@@ -4,7 +4,8 @@
       "Bash(yarn add:*)",
       "Bash(cat:*)",
       "Bash(yarn dev)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(yarn gen-types)"
     ],
     "deny": [],
     "ask": []

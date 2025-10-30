@@ -1,5 +1,7 @@
 import { config } from "./config/index";
 import express from "express";
+import cors from "cors";
+import helmet from "helmet";
 import {
   createOpenApiValidatorMiddleware,
   errorHandlerMiddleware,
@@ -16,8 +18,15 @@ const __dirname = dirname(__filename);
 // Load OpenAPI specification
 export const apiSpecPath: string = join(__dirname, "../api/openapi.yaml");
 const apiSpecContent: string = readFileSync(apiSpecPath, "utf8");
+const apiSpec: any = YAML.parse(apiSpecContent);
 
 const app = express();
+
+// Security and body parsing middleware
+app.use(helmet());
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
   res.send("hello world");
@@ -26,14 +35,14 @@ app.get("/", (req, res) => {
 app.use(
   "/api-docs",
   swaggerUi.serve,
-  swaggerUi.setup(YAML.parse(apiSpecContent), {
+  swaggerUi.setup(apiSpec, {
     explorer: true,
     customCss: ".swagger-ui .topbar { display: none }",
     customSiteTitle: "API Documentation",
   })
 );
 
-app.use(createOpenApiValidatorMiddleware(apiSpecPath));
+app.use(createOpenApiValidatorMiddleware(apiSpec));
 app.use(errorHandlerMiddleware);
 
 app.listen(config.PORT, () => {
