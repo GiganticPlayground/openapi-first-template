@@ -6,7 +6,8 @@
       "Bash(yarn dev)",
       "Bash(npx tsc:*)",
       "Bash(yarn gen-types)",
-      "Bash(yarn validate:*)"
+      "Bash(yarn validate:*)",
+      "Bash(tree:*)"
     ],
     "deny": [],
     "ask": []
