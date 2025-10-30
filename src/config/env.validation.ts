@@ -24,6 +24,12 @@ export const envSchema = z.object({
    * @default development
    */
   NODE_ENV: z.enum(['development', 'production', 'test']).optional().default('development'),
+
+  /**
+   * Path to API keys configuration file
+   * @default config/api-keys.json
+   */
+  API_KEYS_CONFIG_PATH: z.string().optional(),
 });
 
 /**

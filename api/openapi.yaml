@@ -19,6 +19,9 @@ tags:
   - name: Users
     description: Operations on users
 
+security:
+  - ApiKeyAuth: []
+
 paths:
   /health:
     get:
@@ -30,7 +33,7 @@ paths:
       x-eov-operation-handler: healthController
       security: []
       responses:
-        "200":
+        '200':
           description: Successful response
           content:
             application/json:
@@ -267,6 +270,13 @@ paths:
                 $ref: '#/components/schemas/Error'
 
 components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key for authentication. Use 'dev-local-key-12345' for local development.
+
   schemas:
     User:
       type: object
@@ -275,11 +285,11 @@ components:
           type: string
           format: uuid
           description: Unique user identifier
-          example: "550e8400-e29b-41d4-a716-446655440000"
+          example: '550e8400-e29b-41d4-a716-446655440000'
         name:
           type: string
           description: Full name of the user
-          example: "John Doe"
+          example: 'John Doe'
           minLength: 1
           maxLength: 100
         age:
@@ -291,28 +301,28 @@ components:
         address:
           type: string
           description: Physical address of the user
-          example: "123 Main Street, Downtown"
+          example: '123 Main Street, Downtown'
           maxLength: 200
         email:
           type: string
           format: email
           description: Email address of the user
-          example: "john.doe@example.com"
+          example: 'john.doe@example.com'
         phone:
           type: string
           description: Phone number of the user
-          example: "+1 555 123 4567"
+          example: '+1 555 123 4567'
           pattern: '^\+?[1-9]\d{1,14}$'
         createdAt:
           type: string
           format: date-time
           description: Date and time of user creation
-          example: "2025-01-15T10:30:00Z"
+          example: '2025-01-15T10:30:00Z'
         updatedAt:
           type: string
           format: date-time
           description: Date and time of last update
-          example: "2025-01-20T15:45:00Z"
+          example: '2025-01-20T15:45:00Z'
       required:
         - id
         - name
@@ -324,7 +334,7 @@ components:
         name:
           type: string
           description: Full name of the user
-          example: "John Doe"
+          example: 'John Doe'
           minLength: 1
           maxLength: 100
         age:
@@ -336,17 +346,17 @@ components:
         address:
           type: string
           description: Physical address of the user
-          example: "123 Main Street, Downtown"
+          example: '123 Main Street, Downtown'
           maxLength: 200
         email:
           type: string
           format: email
           description: Email address of the user
-          example: "john.doe@example.com"
+          example: 'john.doe@example.com'
         phone:
           type: string
           description: Phone number of the user
-          example: "+1 555 123 4567"
+          example: '+1 555 123 4567'
           pattern: '^\+?[1-9]\d{1,14}$'
       required:
         - name
@@ -358,7 +368,7 @@ components:
         name:
           type: string
           description: Full name of the user
-          example: "John Doe"
+          example: 'John Doe'
           minLength: 1
           maxLength: 100
         age:
@@ -370,17 +380,17 @@ components:
         address:
           type: string
           description: Physical address of the user
-          example: "123 Main Street, Downtown"
+          example: '123 Main Street, Downtown'
           maxLength: 200
         email:
           type: string
           format: email
           description: Email address of the user
-          example: "john.doe@example.com"
+          example: 'john.doe@example.com'
         phone:
           type: string
           description: Phone number of the user
-          example: "+1 555 123 4567"
+          example: '+1 555 123 4567'
           pattern: '^\+?[1-9]\d{1,14}$'
       required:
         - name
@@ -392,7 +402,7 @@ components:
         name:
           type: string
           description: Full name of the user
-          example: "John Doe"
+          example: 'John Doe'
           minLength: 1
           maxLength: 100
         age:
@@ -404,17 +414,17 @@ components:
         address:
           type: string
           description: Physical address of the user
-          example: "123 Main Street, Downtown"
+          example: '123 Main Street, Downtown'
           maxLength: 200
         email:
           type: string
           format: email
           description: Email address of the user
-          example: "john.doe@example.com"
+          example: 'john.doe@example.com'
         phone:
           type: string
           description: Phone number of the user
-          example: "+1 555 123 4567"
+          example: '+1 555 123 4567'
           pattern: '^\+?[1-9]\d{1,14}$'
 
     HealthCheck:
@@ -423,12 +433,12 @@ components:
         status:
           type: string
           description: Current health status of the service
-          example: "OK"
+          example: 'OK'
         timestamp:
           type: string
           format: date-time
           description: Timestamp when the health check was performed
-          example: "2025-01-15T10:30:00Z"
+          example: '2025-01-15T10:30:00Z'
       required:
         - status
         - timestamp
@@ -439,11 +449,11 @@ components:
         code:
           type: string
           description: Error code
-          example: "USER_NOT_FOUND"
+          example: 'USER_NOT_FOUND'
         message:
           type: string
           description: Descriptive error message
-          example: "The requested user does not exist"
+          example: 'The requested user does not exist'
         details:
           type: array
           items:

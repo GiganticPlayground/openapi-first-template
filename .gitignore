@@ -12,6 +12,9 @@ pnpm-debug.log*
 .env.test.local
 .env.production.local
 
+# Configuration files with secrets
+config/api-keys.json
+
 # Build output
 dist/
 build/

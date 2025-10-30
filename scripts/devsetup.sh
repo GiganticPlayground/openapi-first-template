@@ -110,8 +110,42 @@ else
 fi
 echo ""
 
-# Step 3: Create .env file if it doesn't exist
-print_info "Step 3: Setting up environment configuration..."
+# Step 3: Setup API keys configuration
+print_info "Step 3: Setting up API keys configuration..."
+print_verbose "Checking for config/api-keys.json"
+
+if [ ! -d "config" ]; then
+    print_verbose "Creating config directory"
+    mkdir -p config
+fi
+
+if [ ! -f "config/api-keys.json" ]; then
+    if [ -f "src/auth/api-keys.json.example" ]; then
+        print_verbose "Creating config/api-keys.json from example"
+        cat > config/api-keys.json <<'EOF'
+{
+  "apiKeys": {
+    "dev-local-key-12345": {
+      "name": "Local Development Key",
+      "description": "Default API key for local development - DO NOT USE IN PRODUCTION",
+      "createdAt": "2024-01-01T00:00:00Z",
+      "active": true
+    }
+  }
+}
+EOF
+        print_success "Created config/api-keys.json with development key"
+    else
+        print_warning "src/auth/api-keys.json.example not found"
+    fi
+else
+    print_success "API keys configuration already exists"
+    print_verbose "Using existing config/api-keys.json"
+fi
+echo ""
+
+# Step 4: Create .env file if it doesn't exist
+print_info "Step 4: Setting up environment configuration..."
 
 if [ ! -f ".env" ]; then
     if [ -f ".env.example" ]; then
@@ -270,7 +304,21 @@ echo -e "  ${BLUE}API Endpoint:${NC}  http://localhost:3000"
 echo -e "  ${BLUE}Swagger UI:${NC}    http://localhost:3000/api-docs"
 echo -e "  ${BLUE}Health Check:${NC}  http://localhost:3000/health"
 echo ""
+echo -e "${GREEN}🔑 API Authentication:${NC}"
+echo -e "  ${YELLOW}Dev API Key:${NC}  dev-local-key-12345"
+echo -e "  ${CYAN}Header Name:${NC}  X-API-Key"
+echo ""
+echo "Example curl command (protected endpoint):"
+echo -e "  ${CYAN}curl -H \"X-API-Key: dev-local-key-12345\" http://localhost:3000/users${NC}"
+echo ""
+echo "Testing in Swagger UI:"
+echo -e "  1. Click the ${YELLOW}🔓 Authorize${NC} button"
+echo -e "  2. Enter: ${YELLOW}dev-local-key-12345${NC}"
+echo -e "  3. Click ${YELLOW}Authorize${NC} and ${YELLOW}Close${NC}"
+echo -e "  4. Test endpoints interactively"
+echo ""
 echo "Development features:"
+echo -e "  ${GREEN}✓${NC} API key authentication enabled"
 echo -e "  ${GREEN}✓${NC} Hot-reload enabled (nodemon watching for changes)"
 echo -e "  ${GREEN}✓${NC} TypeScript types auto-generated from OpenAPI spec"
 echo -e "  ${GREEN}✓${NC} Request/response validation active"
@@ -287,6 +335,7 @@ echo "Quick tips:"
 echo -e "  • Modify ${CYAN}api/openapi.yaml${NC} to update your API spec"
 echo -e "  • Run ${CYAN}yarn generate${NC} after changing the spec to update code"
 echo -e "  • Implement business logic in ${CYAN}src/controllers/${NC}"
+echo -e "  • Edit ${CYAN}config/api-keys.json${NC} to manage API keys"
 echo -e "  • Press ${CYAN}Ctrl+C${NC} to stop the server"
 echo ""
 print_success "Happy coding! 🎉"
