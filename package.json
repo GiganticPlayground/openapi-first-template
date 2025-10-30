@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon --exec tsx src/index.ts",
-    "build": "tsc",
+    "build": "esbuild src/index.ts --bundle --platform=node --format=esm --target=node24 --outfile=dist/index.js --sourcemap --external:express --external:cors --external:helmet --external:swagger-ui-express --external:yaml --external:dotenv --external:express-openapi-validator --external:zod --external:js-yaml",
     "start": "node dist/index.js",
     "setup": "bash scripts/setup.sh",
     "generate": "npm run gen-types && npm run gen-controllers",
@@ -47,6 +47,7 @@
     "@typescript-eslint/parser": "^8.46.2",
     "commitizen": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
+    "esbuild": "^0.25.11",
     "eslint": "^9.38.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.32.0",

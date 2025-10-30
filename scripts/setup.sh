@@ -77,15 +77,15 @@ echo ""
 
 # Step 4: Build Docker Image
 print_header "Step 4: Building Docker Image"
-print_info "Running: docker-compose build"
-docker-compose build
+print_info "Running: docker compose build"
+docker compose build
 print_success "Docker image built successfully"
 echo ""
 
 # Step 5: Start Docker Container
 print_header "Step 5: Starting Docker Container"
-print_info "Running: docker-compose up -d"
-docker-compose up -d
+print_info "Running: docker compose up -d"
+docker compose up -d
 print_success "Docker container started successfully"
 echo ""
 
