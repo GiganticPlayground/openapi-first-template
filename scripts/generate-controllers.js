@@ -39,7 +39,7 @@ Object.entries(apiSpec.paths).forEach(([pathUrl, methods]) => {
         method: method.toUpperCase(),
         path: pathUrl,
         summary: operation.summary || '',
-        description: operation.description || ''
+        description: operation.description || '',
       });
     }
   });
@@ -52,7 +52,7 @@ function generateTypeAnnotations(operationId) {
     pathParams: `operations['${operationId}']['parameters']['path']`,
     queryParams: `operations['${operationId}']['parameters']['query']`,
     requestBody: `operations['${operationId}']['requestBody']['content']['application/json']`,
-    responseBody: `operations['${operationId}']['responses'][200]['content']['application/json']`
+    responseBody: `operations['${operationId}']['responses'][200]['content']['application/json']`,
   };
 }
 
@@ -73,13 +73,13 @@ controllers.forEach((operations, controllerName) => {
  * Auto-generated from OpenAPI specification
  */
 
-import { Request, Response, NextFunction } from 'express';
-import { operations, components } from '../types/schema';
+import type { NextFunction } from 'express';
+
 import type { ApiRequest, ApiResponse } from '../types/api-helpers';
 
 `;
 
-  operations.forEach(op => {
+  operations.forEach((op) => {
     const types = generateTypeAnnotations(op.operationId);
 
     // Determine default response status code based on HTTP method
@@ -88,9 +88,17 @@ import type { ApiRequest, ApiResponse } from '../types/api-helpers';
     if (op.method === 'DELETE') defaultStatusCode = 204;
 
     // Format the response type - include status code if not 200
-    const responseType = defaultStatusCode === 200
-      ? `ApiResponse<'${op.operationId}'>`
-      : `ApiResponse<'${op.operationId}', ${defaultStatusCode}>`;
+    const responseType =
+      defaultStatusCode === 200
+        ? `ApiResponse<'${op.operationId}'>`
+        : `ApiResponse<'${op.operationId}', ${defaultStatusCode}>`;
+
+    // Generate response code based on status
+    const responseCode =
+      defaultStatusCode === 204
+        ? `res.status(${defaultStatusCode}).end();`
+        : `// TODO: Return properly typed response matching the schema
+    throw new Error('${op.operationId} not implemented');`;
 
     content += `/**
  * ${op.summary}
@@ -109,11 +117,7 @@ export const ${op.operationId} = async (
     // - req.query: Typed query parameters
     // - req.body: Typed request body
 
-    res.status(200).json({
-      message: '${op.operationId} - Implementation pending',
-      method: '${op.method}',
-      path: '${op.path}'
-    });
+    ${responseCode}
   } catch (error) {
     next(error);
   }
@@ -125,7 +129,7 @@ export const ${op.operationId} = async (
   // Write file
   fs.writeFileSync(filePath, content);
   console.log(`✅ Generated: ${fileName}`);
-  console.log(`   Operations: ${operations.map(o => o.operationId).join(', ')}`);
+  console.log(`   Operations: ${operations.map((o) => o.operationId).join(', ')}`);
 });
 
 console.log('\n🎉 Generation completed!');

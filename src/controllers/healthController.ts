@@ -3,7 +3,7 @@
  * Auto-generated from OpenAPI specification
  */
 
-import { NextFunction } from 'express';
+import type { NextFunction } from 'express';
 
 import type { ApiRequest, ApiResponse } from '../types/api-helpers';
 
@@ -18,8 +18,15 @@ export const getHealth = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    res.status(200).json({
-      status: 'OK',
+    // TODO: Implement business logic
+    // Type information:
+    // - req.params: Typed path parameters
+    // - req.query: Typed query parameters
+    // - req.body: Typed request body
+
+    // TODO: Return properly typed response matching the schema
+    res.send({
+      status: 'ok',
       timestamp: new Date().toISOString(),
     });
   } catch (error) {

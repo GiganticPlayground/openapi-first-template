@@ -3,10 +3,9 @@
  * Auto-generated from OpenAPI specification
  */
 
-import { NextFunction } from 'express';
+import type { NextFunction } from 'express';
 
 import type { ApiRequest, ApiResponse } from '../types/api-helpers';
-import { operations, components } from '../types/schema';
 
 /**
  * Get all users
@@ -19,20 +18,14 @@ export const getUsers = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    // Example: Properly typed query parameters from OpenAPI schema
-    // limit and page are now typed as: number | undefined
-    const { limit = 10, page = 1 } = req.query || {};
+    // TODO: Implement business logic
+    // Type information:
+    // - req.params: Typed path parameters
+    // - req.query: Typed query parameters
+    // - req.body: Typed request body
 
-    // TODO: Implement actual business logic (e.g., fetch from database)
-    // This is a mock response matching the OpenAPI response schema
-    const mockResponse: operations['getUsers']['responses'][200]['content']['application/json'] = {
-      data: [],
-      total: 0,
-      page,
-      limit,
-    };
-
-    res.status(200).json(mockResponse);
+    // TODO: Return properly typed response matching the schema
+    throw new Error('getUsers not implemented');
   } catch (error) {
     next(error);
   }
@@ -50,22 +43,13 @@ export const createUser = async (
 ): Promise<void> => {
   try {
     // TODO: Implement business logic
-    // req.body is typed as UserCreate (name, email, age?, address?, phone?)
-    const { name, email, age, address, phone } = req.body;
+    // Type information:
+    // - req.params: Typed path parameters
+    // - req.query: Typed query parameters
+    // - req.body: Typed request body
 
-    // Mock response matching the User schema
-    const mockUser: components['schemas']['User'] = {
-      id: Math.floor(Math.random() * 10000).toFixed(0),
-      name,
-      email,
-      ...(age !== undefined && { age }),
-      ...(address !== undefined && { address }),
-      ...(phone !== undefined && { phone }),
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
-
-    res.status(201).json(mockUser);
+    // TODO: Return properly typed response matching the schema
+    throw new Error('createUser not implemented');
   } catch (error) {
     next(error);
   }
@@ -83,22 +67,13 @@ export const getUserById = async (
 ): Promise<void> => {
   try {
     // TODO: Implement business logic
-    // req.params is typed as { id: string }
-    const { id } = req.params;
+    // Type information:
+    // - req.params: Typed path parameters
+    // - req.query: Typed query parameters
+    // - req.body: Typed request body
 
-    // Mock response matching the User schema
-    const mockUser: components['schemas']['User'] = {
-      id,
-      name: 'John Doe',
-      email: 'john.doe@example.com',
-      age: 30,
-      address: '123 Main Street, Downtown',
-      phone: '+1 555 123 4567',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
-
-    res.status(200).json(mockUser);
+    // TODO: Return properly typed response matching the schema
+    throw new Error('getUserById not implemented');
   } catch (error) {
     next(error);
   }
@@ -116,24 +91,13 @@ export const updateUser = async (
 ): Promise<void> => {
   try {
     // TODO: Implement business logic
-    // req.params is typed as { id: string }
-    // req.body is typed as UserUpdate (name, email, age?, address?, phone?)
-    const { id } = req.params;
-    const { name, email, age, address, phone } = req.body;
+    // Type information:
+    // - req.params: Typed path parameters
+    // - req.query: Typed query parameters
+    // - req.body: Typed request body
 
-    // Mock response matching the User schema
-    const mockUser: components['schemas']['User'] = {
-      id,
-      name,
-      email,
-      ...(age !== undefined && { age }),
-      ...(address !== undefined && { address }),
-      ...(phone !== undefined && { phone }),
-      createdAt: new Date(Date.now() - 86400000).toISOString(), // 1 day ago
-      updatedAt: new Date().toISOString(),
-    };
-
-    res.status(200).json(mockUser);
+    // TODO: Return properly typed response matching the schema
+    throw new Error('updateUser not implemented');
   } catch (error) {
     next(error);
   }
@@ -151,24 +115,13 @@ export const partialUpdateUser = async (
 ): Promise<void> => {
   try {
     // TODO: Implement business logic
-    // req.params is typed as { id: string }
-    // req.body is typed as UserPartial (all fields optional)
-    const { id } = req.params;
-    const updates = req.body;
+    // Type information:
+    // - req.params: Typed path parameters
+    // - req.query: Typed query parameters
+    // - req.body: Typed request body
 
-    // Mock response - in real implementation, would merge with existing user
-    const mockUser: components['schemas']['User'] = {
-      id,
-      name: updates.name ?? 'John Doe',
-      email: updates.email ?? 'john.doe@example.com',
-      ...(updates.age !== undefined && { age: updates.age }),
-      ...(updates.address !== undefined && { address: updates.address }),
-      ...(updates.phone !== undefined && { phone: updates.phone }),
-      createdAt: new Date(Date.now() - 86400000).toISOString(), // 1 day ago
-      updatedAt: new Date().toISOString(),
-    };
-
-    res.status(200).json(mockUser);
+    // TODO: Return properly typed response matching the schema
+    throw new Error('partialUpdateUser not implemented');
   } catch (error) {
     next(error);
   }
@@ -186,14 +139,12 @@ export const deleteUser = async (
 ): Promise<void> => {
   try {
     // TODO: Implement business logic
-    // req.params is typed as { id: string }
-    // const { id } = req.params;
+    // Type information:
+    // - req.params: Typed path parameters
+    // - req.query: Typed query parameters
+    // - req.body: Typed request body
 
-    // Perform delete operation (mock)
-    // In real implementation: await userRepository.delete(id);
-
-    // 204 No Content - no response body
-    res.status(204).send();
+    res.status(204).end();
   } catch (error) {
     next(error);
   }
