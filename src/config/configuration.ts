@@ -1,4 +1,5 @@
 import { config as loadDotenv } from 'dotenv';
+
 import { envSchema, type Env } from './env.validation';
 
 // Load environment variables from .env file
@@ -19,7 +20,7 @@ export function validateEnv(): Env {
       .join('\n');
 
     throw new Error(
-      `Environment variable validation failed:\n${errorMessages}\n\nPlease check your .env file or environment configuration.`
+      `Environment variable validation failed:\n${errorMessages}\n\nPlease check your .env file or environment configuration.`,
     );
   }
 
