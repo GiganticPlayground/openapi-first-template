@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "nodemon --exec tsx src/index.ts",
     "build": "esbuild src/index.ts --bundle --platform=node --format=esm --target=node24 --outfile=dist/index.js --sourcemap --external:express --external:cors --external:helmet --external:swagger-ui-express --external:yaml --external:dotenv --external:express-openapi-validator --external:zod --external:js-yaml",
-    "start": "node dist/index.js",
+    "start": "node --import=tsx src/index.ts",
     "setup": "bash scripts/setup.sh",
     "generate": "npm run gen-types && npm run gen-controllers",
     "gen-types": "npx openapi-typescript ./api/openapi.yaml -o ./src/types/schema.d.ts",

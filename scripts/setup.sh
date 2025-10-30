@@ -68,22 +68,15 @@ npm run gen-controllers
 print_success "Controllers generated successfully"
 echo ""
 
-# Step 3: Build TypeScript
-print_header "Step 3: Compiling TypeScript"
-print_info "Running: npm run build"
-npm run build
-print_success "TypeScript compiled successfully"
-echo ""
-
-# Step 4: Build Docker Image
-print_header "Step 4: Building Docker Image"
-print_info "Running: docker compose build"
+# Step 3: Build Docker Image
+print_header "Step 3: Building Docker Image"
+print_info "Building Docker image (TypeScript runs directly with tsx)"
 docker compose build
 print_success "Docker image built successfully"
 echo ""
 
-# Step 5: Start Docker Container
-print_header "Step 5: Starting Docker Container"
+# Step 4: Start Docker Container
+print_header "Step 4: Starting Docker Container"
 print_info "Running: docker compose up -d"
 docker compose up -d
 print_success "Docker container started successfully"
