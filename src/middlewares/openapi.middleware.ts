@@ -1,11 +1,12 @@
-import * as OpenApiValidator from "express-openapi-validator";
-import { join } from "path";
+import { join } from 'path';
 
-export const createOpenApiValidatorMiddleware = (apiSpec: any) =>
+import * as OpenApiValidator from 'express-openapi-validator';
+
+export const createOpenApiValidatorMiddleware = (apiSpec: unknown) =>
   OpenApiValidator.middleware({
-    apiSpec: apiSpec,
+    apiSpec: apiSpec as string,
     validateApiSpec: true,
     validateRequests: true, // (default)
     validateResponses: true, // false by default
-    operationHandlers: join(process.cwd(), "src/controllers"),
+    operationHandlers: join(process.cwd(), 'src/controllers'),
   });

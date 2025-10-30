@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 /**
  * Environment variables validation schema.
@@ -17,6 +17,13 @@ export const envSchema = z.object({
     .pipe(z.number().min(1).max(65535))
     .optional()
     .default(3000),
+
+  /**
+   * Application environment
+   * Controls logging behavior and other environment-specific features
+   * @default development
+   */
+  NODE_ENV: z.enum(['development', 'production', 'test']).optional().default('development'),
 });
 
 /**

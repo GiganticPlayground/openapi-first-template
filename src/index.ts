@@ -1,24 +1,24 @@
-import { config } from "./config/index";
-import express from "express";
-import cors from "cors";
-import helmet from "helmet";
-import {
-  createOpenApiValidatorMiddleware,
-  errorHandlerMiddleware,
-} from "./middlewares/index";
-import swaggerUi from "swagger-ui-express";
-import { dirname, join } from "path";
-import YAML from "yaml";
-import { readFileSync } from "fs";
-import { fileURLToPath } from "url";
+import { readFileSync } from 'fs';
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
+
+import cors from 'cors';
+import express from 'express';
+import helmet from 'helmet';
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'yaml';
+
+import { config } from './config/index';
+import { createOpenApiValidatorMiddleware, errorHandlerMiddleware } from './middlewares/index';
+import { logger } from './utils/index';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // Load OpenAPI specification
-export const apiSpecPath: string = join(__dirname, "../api/openapi.yaml");
-const apiSpecContent: string = readFileSync(apiSpecPath, "utf8");
-const apiSpec: any = YAML.parse(apiSpecContent);
+export const apiSpecPath: string = join(__dirname, '../api/openapi.yaml');
+const apiSpecContent: string = readFileSync(apiSpecPath, 'utf8');
+const apiSpec: swaggerUi.JsonObject = YAML.parse(apiSpecContent) as swaggerUi.JsonObject;
 
 const app = express();
 
@@ -28,23 +28,23 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/", (req, res) => {
-  res.send("hello world");
+app.get('/', (req, res) => {
+  res.send('hello world');
 });
 
 app.use(
-  "/api-docs",
+  '/api-docs',
   swaggerUi.serve,
   swaggerUi.setup(apiSpec, {
     explorer: true,
-    customCss: ".swagger-ui .topbar { display: none }",
-    customSiteTitle: "API Documentation",
-  })
+    customCss: '.swagger-ui .topbar { display: none }',
+    customSiteTitle: 'API Documentation',
+  }),
 );
 
 app.use(createOpenApiValidatorMiddleware(apiSpec));
 app.use(errorHandlerMiddleware);
 
 app.listen(config.PORT, () => {
-  console.log(`Server is running on port ${config.PORT}`);
+  logger.info(`Server is running on port ${config.PORT}`);
 });

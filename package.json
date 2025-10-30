@@ -7,7 +7,15 @@
   "scripts": {
     "dev": "nodemon --exec tsx src/index.ts",
     "gen-types": "npx openapi-typescript ./api/openapi.yaml -o ./src/types/schema.d.ts",
-    "gen-controllers": "node scripts/generate-controllers.js"
+    "gen-controllers": "node scripts/generate-controllers.js",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "format": "prettier --write \"src/**/*.ts\" \"api/**/*.yaml\" \"scripts/**/*.js\"",
+    "format:check": "prettier --check \"src/**/*.ts\" \"api/**/*.yaml\" \"scripts/**/*.js\"",
+    "type-check": "tsc --noEmit",
+    "validate": "yarn type-check && yarn lint && yarn format:check",
+    "commit": "cz",
+    "prepare": "husky"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -21,15 +29,40 @@
     "zod": "^4.1.12"
   },
   "devDependencies": {
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
     "@types/cors": "^2.8.19",
     "@types/helmet": "^4.0.0",
     "@types/node": "^24.9.2",
     "@types/swagger-ui-express": "^4.1.8",
+    "@typescript-eslint/eslint-plugin": "^8.46.2",
+    "@typescript-eslint/parser": "^8.46.2",
+    "commitizen": "^4.3.1",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^9.38.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-n": "^17.23.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.6",
     "nodemon": "^3.1.10",
     "prettier": "^3.6.2",
     "ts-node": "^10.9.2",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{js,json,yaml,yml,md}": [
+      "prettier --write"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

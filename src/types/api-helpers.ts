@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * Type helpers for OpenAPI-first Express development
  *
@@ -14,8 +15,9 @@
  * ```
  */
 
-import type { operations } from './schema';
 import type { Request, Response } from 'express';
+
+import type { operations } from './schema';
 
 // ============================================
 // INDIVIDUAL TYPE EXTRACTORS
@@ -32,10 +34,11 @@ import type { Request, Response } from 'express';
  * type NoParams = PathParams<'getUsers'>;   // Record<string, never>
  * ```
  */
-export type PathParams<T extends keyof operations> =
-  operations[T] extends { parameters: { path: infer P } }
-    ? P
-    : Record<string, never>;
+export type PathParams<T extends keyof operations> = operations[T] extends {
+  parameters: { path: infer P };
+}
+  ? P
+  : Record<string, never>;
 
 /**
  * Extract query parameters for an OpenAPI operation
@@ -47,10 +50,11 @@ export type PathParams<T extends keyof operations> =
  * type Query = QueryParams<'getUsers'>;  // { limit?: number; page?: number }
  * ```
  */
-export type QueryParams<T extends keyof operations> =
-  operations[T] extends { parameters: { query: infer Q } }
-    ? Q
-    : Record<string, never>;
+export type QueryParams<T extends keyof operations> = operations[T] extends {
+  parameters: { query: infer Q };
+}
+  ? Q
+  : Record<string, never>;
 
 /**
  * Extract request body type for an OpenAPI operation
@@ -64,10 +68,11 @@ export type QueryParams<T extends keyof operations> =
  * type NoBody = RequestBody<'getUsers'>;  // undefined
  * ```
  */
-export type RequestBody<T extends keyof operations> =
-  operations[T] extends { requestBody: { content: { 'application/json': infer B } } }
-    ? B
-    : undefined;
+export type RequestBody<T extends keyof operations> = operations[T] extends {
+  requestBody: { content: { 'application/json': infer B } };
+}
+  ? B
+  : undefined;
 
 /**
  * Extract response body type for an OpenAPI operation and status code
@@ -83,11 +88,11 @@ export type RequestBody<T extends keyof operations> =
  */
 export type ResponseBody<
   T extends keyof operations,
-  Status extends number = 200
+  Status extends number = 200,
 > = operations[T] extends {
   responses: {
-    [K in Status]: { content: { 'application/json': infer R } }
-  }
+    [K in Status]: { content: { 'application/json': infer R } };
+  };
 }
   ? R
   : void;
@@ -150,10 +155,9 @@ export type ApiRequest<T extends keyof operations> = Request<
  * };
  * ```
  */
-export type ApiResponse<
-  T extends keyof operations,
-  Status extends number = 200
-> = Response<ResponseBody<T, Status>>;
+export type ApiResponse<T extends keyof operations, Status extends number = 200> = Response<
+  ResponseBody<T, Status>
+>;
 
 // ============================================
 // OPERATION TYPE BUNDLE (ADVANCED USAGE)
