@@ -75,11 +75,22 @@ controllers.forEach((operations, controllerName) => {
 
 import { Request, Response, NextFunction } from 'express';
 import { operations, components } from '../types/schema';
+import type { ApiRequest, ApiResponse } from '../types/api-helpers';
 
 `;
 
   operations.forEach(op => {
     const types = generateTypeAnnotations(op.operationId);
+
+    // Determine default response status code based on HTTP method
+    let defaultStatusCode = 200;
+    if (op.method === 'POST') defaultStatusCode = 201;
+    if (op.method === 'DELETE') defaultStatusCode = 204;
+
+    // Format the response type - include status code if not 200
+    const responseType = defaultStatusCode === 200
+      ? `ApiResponse<'${op.operationId}'>`
+      : `ApiResponse<'${op.operationId}', ${defaultStatusCode}>`;
 
     content += `/**
  * ${op.summary}
@@ -87,13 +98,16 @@ import { operations, components } from '../types/schema';
  * @route ${op.method} ${op.path}
  */
 export const ${op.operationId} = async (
-  req: Request,
-  res: Response,
+  req: ApiRequest<'${op.operationId}'>,
+  res: ${responseType},
   next: NextFunction
 ): Promise<void> => {
   try {
     // TODO: Implement business logic
-    // Access types via: ${types.operation}
+    // Type information:
+    // - req.params: Typed path parameters
+    // - req.query: Typed query parameters
+    // - req.body: Typed request body
 
     res.status(200).json({
       message: '${op.operationId} - Implementation pending',

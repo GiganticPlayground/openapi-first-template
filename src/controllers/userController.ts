@@ -3,8 +3,9 @@
  * Auto-generated from OpenAPI specification
  */
 
-import { Request, Response, NextFunction } from 'express';
-import { operations, components } from '../types/schema';
+import { NextFunction } from "express";
+import { operations, components } from "../types/schema";
+import type { ApiRequest, ApiResponse } from "../types/api-helpers";
 
 /**
  * Get all users
@@ -12,19 +13,26 @@ import { operations, components } from '../types/schema';
  * @route GET /users
  */
 export const getUsers = async (
-  req: Request,
-  res: Response,
+  req: ApiRequest<'getUsers'>,
+  res: ApiResponse<'getUsers'>,
   next: NextFunction
 ): Promise<void> => {
   try {
-    // TODO: Implement business logic
-    // Access types via: operations['getUsers']
+    // Example: Properly typed query parameters from OpenAPI schema
+    // limit and page are now typed as: number | undefined
+    const { limit = 10, page = 1 } = req.query || {};
 
-    res.status(200).json({
-      message: 'getUsers - Implementation pending',
-      method: 'GET',
-      path: '/users'
-    });
+    // TODO: Implement actual business logic (e.g., fetch from database)
+    // This is a mock response matching the OpenAPI response schema
+    const mockResponse: operations["getUsers"]["responses"][200]["content"]["application/json"] =
+      {
+        data: [],
+        total: 0,
+        page,
+        limit,
+      };
+
+    res.status(200).json(mockResponse);
   } catch (error) {
     next(error);
   }
@@ -36,19 +44,28 @@ export const getUsers = async (
  * @route POST /users
  */
 export const createUser = async (
-  req: Request,
-  res: Response,
+  req: ApiRequest<'createUser'>,
+  res: ApiResponse<'createUser', 201>,
   next: NextFunction
 ): Promise<void> => {
   try {
     // TODO: Implement business logic
-    // Access types via: operations['createUser']
+    // req.body is typed as UserCreate (name, email, age?, address?, phone?)
+    const { name, email, age, address, phone } = req.body;
 
-    res.status(200).json({
-      message: 'createUser - Implementation pending',
-      method: 'POST',
-      path: '/users'
-    });
+    // Mock response matching the User schema
+    const mockUser: components['schemas']['User'] = {
+      id: crypto.randomUUID(),
+      name,
+      email,
+      ...(age !== undefined && { age }),
+      ...(address !== undefined && { address }),
+      ...(phone !== undefined && { phone }),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    res.status(201).json(mockUser);
   } catch (error) {
     next(error);
   }
@@ -60,19 +77,28 @@ export const createUser = async (
  * @route GET /users/{id}
  */
 export const getUserById = async (
-  req: Request,
-  res: Response,
+  req: ApiRequest<'getUserById'>,
+  res: ApiResponse<'getUserById'>,
   next: NextFunction
 ): Promise<void> => {
   try {
     // TODO: Implement business logic
-    // Access types via: operations['getUserById']
+    // req.params is typed as { id: string }
+    const { id } = req.params;
 
-    res.status(200).json({
-      message: 'getUserById - Implementation pending',
-      method: 'GET',
-      path: '/users/{id}'
-    });
+    // Mock response matching the User schema
+    const mockUser: components['schemas']['User'] = {
+      id,
+      name: "John Doe",
+      email: "john.doe@example.com",
+      age: 30,
+      address: "123 Main Street, Downtown",
+      phone: "+1 555 123 4567",
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    res.status(200).json(mockUser);
   } catch (error) {
     next(error);
   }
@@ -84,19 +110,30 @@ export const getUserById = async (
  * @route PUT /users/{id}
  */
 export const updateUser = async (
-  req: Request,
-  res: Response,
+  req: ApiRequest<'updateUser'>,
+  res: ApiResponse<'updateUser'>,
   next: NextFunction
 ): Promise<void> => {
   try {
     // TODO: Implement business logic
-    // Access types via: operations['updateUser']
+    // req.params is typed as { id: string }
+    // req.body is typed as UserUpdate (name, email, age?, address?, phone?)
+    const { id } = req.params;
+    const { name, email, age, address, phone } = req.body;
 
-    res.status(200).json({
-      message: 'updateUser - Implementation pending',
-      method: 'PUT',
-      path: '/users/{id}'
-    });
+    // Mock response matching the User schema
+    const mockUser: components['schemas']['User'] = {
+      id,
+      name,
+      email,
+      ...(age !== undefined && { age }),
+      ...(address !== undefined && { address }),
+      ...(phone !== undefined && { phone }),
+      createdAt: new Date(Date.now() - 86400000).toISOString(), // 1 day ago
+      updatedAt: new Date().toISOString(),
+    };
+
+    res.status(200).json(mockUser);
   } catch (error) {
     next(error);
   }
@@ -108,19 +145,30 @@ export const updateUser = async (
  * @route PATCH /users/{id}
  */
 export const partialUpdateUser = async (
-  req: Request,
-  res: Response,
+  req: ApiRequest<'partialUpdateUser'>,
+  res: ApiResponse<'partialUpdateUser'>,
   next: NextFunction
 ): Promise<void> => {
   try {
     // TODO: Implement business logic
-    // Access types via: operations['partialUpdateUser']
+    // req.params is typed as { id: string }
+    // req.body is typed as UserPartial (all fields optional)
+    const { id } = req.params;
+    const updates = req.body;
 
-    res.status(200).json({
-      message: 'partialUpdateUser - Implementation pending',
-      method: 'PATCH',
-      path: '/users/{id}'
-    });
+    // Mock response - in real implementation, would merge with existing user
+    const mockUser: components['schemas']['User'] = {
+      id,
+      name: updates.name || "John Doe",
+      email: updates.email || "john.doe@example.com",
+      ...(updates.age !== undefined && { age: updates.age }),
+      ...(updates.address !== undefined && { address: updates.address }),
+      ...(updates.phone !== undefined && { phone: updates.phone }),
+      createdAt: new Date(Date.now() - 86400000).toISOString(), // 1 day ago
+      updatedAt: new Date().toISOString(),
+    };
+
+    res.status(200).json(mockUser);
   } catch (error) {
     next(error);
   }
@@ -132,21 +180,21 @@ export const partialUpdateUser = async (
  * @route DELETE /users/{id}
  */
 export const deleteUser = async (
-  req: Request,
-  res: Response,
+  req: ApiRequest<'deleteUser'>,
+  res: ApiResponse<'deleteUser', 204>,
   next: NextFunction
 ): Promise<void> => {
   try {
     // TODO: Implement business logic
-    // Access types via: operations['deleteUser']
+    // req.params is typed as { id: string }
+    const { id } = req.params;
 
-    res.status(200).json({
-      message: 'deleteUser - Implementation pending',
-      method: 'DELETE',
-      path: '/users/{id}'
-    });
+    // Perform delete operation (mock)
+    // In real implementation: await userRepository.delete(id);
+
+    // 204 No Content - no response body
+    res.status(204).send();
   } catch (error) {
     next(error);
   }
 };
-

@@ -3,7 +3,8 @@
     "allow": [
       "Bash(yarn add:*)",
       "Bash(cat:*)",
-      "Bash(yarn dev)"
+      "Bash(yarn dev)",
+      "Bash(npx tsc:*)"
     ],
     "deny": [],
     "ask": []
