@@ -26,6 +26,41 @@ This project provides a streamlined workflow where you can:
 - **Docker** and **Docker Compose**
 - **npm** or **yarn**
 
+# 🧩 Using This Template Repository
+
+This repository is configured as a **GitHub Template Repository**, allowing you to quickly create a new project with the same structure, configuration, and files — without copying the entire commit history.
+
+---
+
+## 🚀 How to Create a New Repository from This Template
+
+### Option 1 — Using GitHub Web Interface
+
+1. Go to this repository’s main page on GitHub.
+2. Click the green button **“Use this template”** at the top right of the page.
+3. Select **“Create a new repository.”**
+4. Enter the **name** of your new repository.
+5. Choose whether it should be **Public** or **Private.**
+6. (Optional) Add a **description** and adjust settings as needed.
+7. Click **“Create repository from template.”**
+
+That’s it! 🎉  
+Your new repository will now include all the files, folders, and configuration from this template — ready for customization.
+
+---
+
+### Option 2 — Using GitHub CLI (if you prefer the terminal)
+
+You can use the [GitHub CLI](https://cli.github.com/) to create a new repo from the template:
+
+````bash
+# Syntax
+gh repo create <new-repo-name> --template <owner>/<template-repo>
+
+# Example
+gh repo create my-new-project --template GiganticPlayground/openapi-first-template
+
+
 ## Quick Start
 
 ### 1. Add Your OpenAPI Specification
@@ -34,7 +69,7 @@ Copy your `openapi.yaml` file to the `api/` directory:
 
 ```bash
 cp your-api-spec.yaml api/openapi.yaml
-```
+````
 
 ### 2. Install Dependencies
 
