@@ -1,3 +1,4 @@
+import { config } from "./config/index";
 import express from "express";
 import {
   createOpenApiValidatorMiddleware,
@@ -35,4 +36,6 @@ app.use(
 app.use(createOpenApiValidatorMiddleware(apiSpecPath));
 app.use(errorHandlerMiddleware);
 
-app.listen(3000);
+app.listen(config.PORT, () => {
+  console.log(`Server is running on port ${config.PORT}`);
+});
